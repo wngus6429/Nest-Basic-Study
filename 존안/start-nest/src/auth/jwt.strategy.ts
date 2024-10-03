@@ -21,7 +21,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   // return 값은 @UseGuards(AuthGuard())를 이용한 모든 요청의 Request 객체에 들어감.
   async validate(payload) {
     const { username } = payload;
-    const user: User = await this.userRepository.findOne({ where: username });
+    const user: User = await this.userRepository.findOne({
+      where: { username },
+    });
 
     if (!user) {
       throw new UnauthorizedException();

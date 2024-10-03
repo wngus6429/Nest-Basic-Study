@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Post,
+  Req,
   Res,
   UseGuards,
   ValidationPipe,
@@ -30,7 +31,7 @@ export class AuthController {
 
   @Post('/test')
   @UseGuards(AuthGuard())
-  test(@Res() req) {
+  test(@Req() req) {
     console.log(req);
   }
 }
