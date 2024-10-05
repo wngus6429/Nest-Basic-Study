@@ -1,0 +1,3 @@
+# production에서 synchronize를 false로 설정하면, production에서는 DB를 자동으로 동기화하지 않습니다.
+db:
+  synchronize: false

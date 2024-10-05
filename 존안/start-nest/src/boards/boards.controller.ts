@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Logger,
   Param,
   ParseIntPipe,
   Patch,
@@ -22,6 +23,7 @@ import { User } from 'src/auth/user.entity';
 @Controller('boards')
 @UseGuards(AuthGuard())
 export class BoardsController {
+  private logger = new Logger('BoardsController');
   constructor(private boardsService: BoardsService) {}
 
   @Get()
@@ -31,6 +33,7 @@ export class BoardsController {
 
   @Get('/userBoards')
   getUserBoards(@GetUser() user: User): Promise<Board[]> {
+    this.logger.verbose(`User ${user.username} boards.`);
     return this.boardsService.getUserBoards(user);
   }
 
@@ -45,6 +48,10 @@ export class BoardsController {
     @Body() createBoardDto: CreateBoardDto,
     @GetUser() user: User,
   ): Promise<Board> {
+    // Json.stringify() 안하면 [object Object]로 나옴
+    this.logger.verbose(
+      `User ${user.username} creating a new board. Payload: ${JSON.stringify(createBoardDto)}`,
+    );
     return this.boardsService.createBoard(createBoardDto, user);
   }
 
